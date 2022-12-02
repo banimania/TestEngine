@@ -1,5 +1,6 @@
 #include "Cuboid.hpp"
 #include "Camera.hpp"
+#include "Floor.hpp"
 
 #include <gl/glut.h>
 #include <windows.h>
@@ -13,8 +14,7 @@ void changeSize(int w, int h);
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 800;
 
-float dt;
-float old_t;
+float dt, old_t;
 
 Camera camera = Camera();
 
@@ -44,8 +44,6 @@ int main(int argc, char* argv[]) {
 	glutReshapeFunc(changeSize);
 	glutPassiveMotionFunc(mouseMove);
 
-	cuboid.render();
-
 	glutMainLoop();
 	return 0;
 }
@@ -61,11 +59,13 @@ void render() {
 
 	//Test
 	cuboid.render();
-	glBegin(GL_QUADS);
+
+	/*glBegin(GL_QUADS);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glVertex3f(-100.0f, 0.0f, -100.0f);
 	glVertex3f(-100.0f, 0.0f, 100.0f);
 	glVertex3f(100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, -100.0f);
+	glVertex3f(100.0f, 0.0f, -100.0f);*/
 	glEnd();
 
 	glFlush();
@@ -73,6 +73,11 @@ void render() {
 }
 
 void idle() {
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		glFlush();
+		exit(0);
+	}
+
 	int t = glutGet(GLUT_ELAPSED_TIME);
 	dt = (t - old_t) / 1000.0f;
 	old_t = t;
