@@ -3,9 +3,12 @@
 
 #include <gl/glut.h>
 #include <windows.h>
+#include <iostream>
 
 void render();
 void idle();
+void mouseMove(int xx, int yy);
+void changeSize(int w, int h);
 
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 800;
@@ -13,7 +16,9 @@ const int WINDOW_HEIGHT = 800;
 float dt;
 float old_t;
 
-Camera camera = Camera(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 100.0f);
+Camera camera = Camera();
+
+int mx, my;
 
 //Test
 float cubeColors[18] = {
@@ -24,7 +29,7 @@ float cubeColors[18] = {
 	0.0f, 1.0f, 1.0f,
 	1.0f, 0.0f, 1.0f
 };
-Cuboid cuboid = Cuboid(-0.5f, -0.5f, -0.5f, 1.0f, 0.5f, 0.5f, cubeColors);
+Cuboid cuboid = Cuboid(-0.5f, 0.5f, -0.5f, 1.0f, 0.5f, 0.5f, cubeColors);
 
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
@@ -36,6 +41,8 @@ int main(int argc, char* argv[]) {
 
 	glutDisplayFunc(render);
 	glutIdleFunc(idle);
+	glutReshapeFunc(changeSize);
+	glutPassiveMotionFunc(mouseMove);
 
 	cuboid.render();
 
@@ -45,16 +52,21 @@ int main(int argc, char* argv[]) {
 
 void render() {
 
-	camera.handleCameraMovement(dt, WINDOW_WIDTH, WINDOW_HEIGHT);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	glRotatef(camera.x_rot, 1.0f, 0.0f, 0.0f);
-	glRotatef(camera.y_rot, 0.0f, 1.0f, 0.0f);
-	glTranslatef(camera.x, camera.y, camera.z);
+
+
+	camera.camControl(dt, mx, my);
+	camera.updateCam();
 
 	//Test
 	cuboid.render();
+	glBegin(GL_QUADS);
+	glVertex3f(-100.0f, 0.0f, -100.0f);
+	glVertex3f(-100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, 100.0f);
+	glVertex3f(100.0f, 0.0f, -100.0f);
+	glEnd();
 
 	glFlush();
 	glutSwapBuffers();
@@ -65,4 +77,26 @@ void idle() {
 	dt = (t - old_t) / 1000.0f;
 	old_t = t;
 	glutPostRedisplay();
+}
+
+void mouseMove(int xx, int yy) {
+	mx = xx;
+	my = yy;
+}
+
+void changeSize(int w, int h) {
+	if (h == 0) {
+		h = 1;
+	}
+
+	float ratio = (float)w / (float)h;
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glViewport(0, 0, w, h);
+
+	gluPerspective(45, ratio, 1, 1000);
+
+	glMatrixMode(GL_MODELVIEW);
 }

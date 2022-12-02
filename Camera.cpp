@@ -1,65 +1,72 @@
 #include "Camera.hpp"
 
-#include <gl/glut.h>
-#include <windows.h>
+void Camera::lockCam(void) {
+	if (camPitch > 90.0) {
+		camPitch = 90.0;
+	}
 
-int last_mx = 0;
-int last_my = 0;
-int last_mx_change = 0;
-int last_my_change = 0;
+	if (camPitch < -90.0) {
+		camPitch = -90.0;
+	}
 
-Camera::Camera(float x, float y, float z, float x_rot, float y_rot, float z_rot, float mov_speed, float rot_speed) {
-	this->x = x;
-	this->y = y;
-	this->z = z;
-	this->x_rot = x_rot;
-	this->y_rot = y_rot;
-	this->z_rot = z_rot;
-	this->mov_speed = mov_speed;
-	this->rot_speed = rot_speed;
+	if (camYaw > 360.0) {
+		camYaw -= 360;
+	}
 }
 
-void Camera::handleCameraMovement(float dt, float windowWidth, float windowHeight) {
-	int wx = glutGet((GLenum)GLUT_WINDOW_X);
-	int wy = glutGet((GLenum)GLUT_WINDOW_Y);
-	POINT p;
-	GetCursorPos(&p);
-	int mouse_x = -(wx - p.x);
-	int mouse_y = -(wy - p.y);
+void Camera::moveCam(float dist, float dir) {
+	float rad = (camYaw + dir) * M_PI / 180.0;
 
-	int mx_change = last_mx - mouse_x + (windowWidth / 2);
-	int my_change = last_my - mouse_y + (windowHeight / 2);
+	camX -= sin(rad) * dist;
+	camZ -= cos(rad) * dist;
+}
 
-	if (mx_change - last_mx_change > 0) {
-		y_rot += rot_speed * dt;
-	}
-	else if (mx_change - last_mx_change < 0) {
-		y_rot -= rot_speed * dt;
-	}
+void Camera::moveCamUp(float dist, float dir) {
+	float rad = (camPitch + dir) * M_PI / 180.0;
 
-	if (my_change - last_my_change > 0) {
-		x_rot += rot_speed * dt;
-	}
-	else if (my_change - last_my_change < 0) {
-		x_rot -= rot_speed * dt;
-	}
+	camY += sin(rad) * dist;
+}
 
+void Camera::camControl(float deltaTime, int mX, int mY) {
+	int midX = 600 / 2;
+	int midY = 600 / 2;
+
+	glutSetCursor(GLUT_CURSOR_NONE);
+
+	camYaw += mouseVel * (midX - mX) * deltaTime;
+	camPitch += mouseVel * (midY - mY) * deltaTime;
+
+	lockCam();
+
+	glutWarpPointer(midX, midY);
+
+	float mv = moveVel * deltaTime;
 	if (GetAsyncKeyState('W')) {
-		y -= mov_speed * dt;
+		if (camPitch != 90.0 && camPitch != -90.0) {
+			moveCam(mv, 0.0);
+		}
+		moveCamUp(mv, 0.0);
 	}
 
 	if (GetAsyncKeyState('S')) {
-		y += mov_speed * dt;
+		if (camPitch != 90.0 && camPitch != -90.0) {
+			moveCam(mv, 180.0);
+		}
+		moveCamUp(mv, 180.0);
 	}
 
 	if (GetAsyncKeyState('A')) {
-		x += mov_speed * dt;
+		moveCam(mv, 90.0);
 	}
 
 	if (GetAsyncKeyState('D')) {
-		x -= mov_speed * dt;
+		moveCam(mv, 270.0);
 	}
 
-	last_mx_change = mx_change;
-	last_my_change = my_change;
+	glRotatef(-camPitch, 1.0, 0.0, 0.0);
+	glRotatef(-camYaw, 0.0, 1.0, 0.0);
+}
+
+void Camera::updateCam(void) {
+	glTranslatef(-camX, -camY, -camZ);
 }
