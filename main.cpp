@@ -1,6 +1,5 @@
 #include "Cuboid.hpp"
 #include "Camera.hpp"
-#include "Floor.hpp"
 
 #include <gl/glut.h>
 #include <windows.h>
@@ -29,7 +28,9 @@ float cubeColors[18] = {
 	0.0f, 1.0f, 1.0f,
 	1.0f, 0.0f, 1.0f
 };
-Cuboid cuboid = Cuboid(-0.5f, 0.5f, -0.5f, 1.0f, 0.5f, 0.5f, cubeColors);
+
+Cuboid cuboid = Cuboid(-100.0f, -0.5f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors);
+Cuboid floorC = Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
@@ -54,18 +55,15 @@ void render() {
 	glLoadIdentity();
 
 
-	camera.camControl(dt, mx, my);
+	camera.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
 	camera.updateCam();
 
 	//Test
 	cuboid.render();
+	floorC.render();
 
-	/*glBegin(GL_QUADS);
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(-100.0f, 0.0f, -100.0f);
-	glVertex3f(-100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, 100.0f);
-	glVertex3f(100.0f, 0.0f, -100.0f);*/
+	std::cout << camera.camPitch << std::endl;
+
 	glEnd();
 
 	glFlush();
@@ -87,6 +85,9 @@ void idle() {
 void mouseMove(int xx, int yy) {
 	mx = xx;
 	my = yy;
+	if (!camera.hasMovedCam) {
+		camera.hasMovedCam = true;
+	}
 }
 
 void changeSize(int w, int h) {

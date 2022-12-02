@@ -27,14 +27,16 @@ void Camera::moveCamUp(float dist, float dir) {
 	camY += sin(rad) * dist;
 }
 
-void Camera::camControl(float deltaTime, int mX, int mY) {
-	int midX = 600 / 2;
-	int midY = 600 / 2;
+void Camera::camControl(float deltaTime, int mX, int mY, int ww, int wh) {
+	int midX = ww / 2;
+	int midY = wh / 2;
 
 	glutSetCursor(GLUT_CURSOR_NONE);
 
-	camYaw += mouseVel * (midX - mX) * deltaTime;
-	camPitch += mouseVel * (midY - mY) * deltaTime;
+	if (hasMovedCam) {
+		camYaw += mouseVel * (midX - mX) * deltaTime;
+		camPitch += mouseVel * (midY - mY) * deltaTime;
+	}
 
 	lockCam();
 
