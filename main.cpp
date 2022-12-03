@@ -3,7 +3,9 @@
 
 #include <gl/glut.h>
 #include <windows.h>
+#include <string>
 #include <iostream>
+#include <vector>
 
 void render();
 void idle();
@@ -15,9 +17,16 @@ const int WINDOW_HEIGHT = 800;
 
 float dt, old_t;
 
+GLdouble fov = 60;
+GLdouble aspect = 1;
+GLdouble nearVal = 0.1;
+GLdouble farVal = 1000;
+
 Camera camera = Camera();
 
 int mx, my;
+
+std::vector<std::unique_ptr<GameObject>> gameObjectPtrs;
 
 //Test
 float cubeColors[18] = {
@@ -45,6 +54,10 @@ int main(int argc, char* argv[]) {
 	glutReshapeFunc(changeSize);
 	glutPassiveMotionFunc(mouseMove);
 
+	//TEST
+	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -0.25f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
+	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+
 	glutMainLoop();
 	return 0;
 }
@@ -53,15 +66,15 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-
+	
+	//TEST
 	camera.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
 	camera.updateCam();
 
-	//Test
-	cuboid.render();
-	floorC.render();
-
-	std::cout << camera.camPitch << std::endl;
+	for (int i = 0; i < gameObjectPtrs.size(); i++) {
+		gameObjectPtrs[i]->logic(dt);
+		gameObjectPtrs[i]->render();
+	}
 
 	glEnd();
 
@@ -99,10 +112,6 @@ void changeSize(int w, int h) {
 
 	glViewport(0, 0, w, h);
 
-	GLdouble fov = 60;
-	GLdouble aspect = 1;
-	GLdouble nearVal = 0.1;
-	GLdouble farVal = 1000;
 	gluPerspective(fov, aspect, nearVal, farVal);
 
 	glMatrixMode(GL_MODELVIEW);
