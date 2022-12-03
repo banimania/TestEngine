@@ -26,7 +26,7 @@ Player player = Player();
 
 int mx, my;
 
-std::vector<std::unique_ptr<GameObject>> gameObjectPtrs;
+std::vector<GameObject*> gameObjectPtrs;
 
 //Test
 float cubeColors[18] = {
@@ -38,10 +38,11 @@ float cubeColors[18] = {
 	1.0f, 0.0f, 1.0f
 };
 
-Cuboid cuboid = Cuboid(-100.0f, -0.25f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors);
-Cuboid floorC = Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-
 int main(int argc, char* argv[]) {
+	//TEST
+	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -0.25f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
+	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -54,10 +55,6 @@ int main(int argc, char* argv[]) {
 	glutReshapeFunc(changeSize);
 	glutPassiveMotionFunc(mouseMove);
 
-	//TEST
-	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -0.25f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
-	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
-
 	glutMainLoop();
 	return 0;
 }
@@ -67,9 +64,10 @@ void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	player.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
+	//std::cout << gameObjectPtrs.size() << std::endl;
+	player.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT, gameObjectPtrs);
 	player.updateCam();
-
+	
 	for (int i = 0; i < gameObjectPtrs.size(); i++) {
 		gameObjectPtrs[i]->logic(dt);
 		gameObjectPtrs[i]->render();

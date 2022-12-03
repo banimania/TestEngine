@@ -1,19 +1,23 @@
 #pragma once
 
+#include "GameObject.hpp"
+
 #define _USE_MATH_DEFINES
 #include <GL/glut.h>
 #include <cmath>
 #include <windows.h>
 #include <cstdio>
+#include <vector>
+#include <iostream>
 
 class Player {
 	public:
 		float camX, camY, camZ, camYaw, camPitch, moveVel, mouseVel;
 		bool hasMovedCam;
 		void lockCam();
-		void moveCam(float dist, float dir);
+		void moveCam(float dist, float dir, std::vector<GameObject*> gameObjectPtrs);
 		//void moveCamUp(float dist, float dir);
-		void camControl(float deltaTime, int mX, int mY, int ww, int wh);
+		void camControl(float deltaTime, int mX, int mY, int ww, int wh, std::vector<GameObject*> gameObjectPtrs);
 		void updateCam();
 		Player(float camX, float camY, float camZ, float camYaw, float camPitch, float moveVel, float mouseVel) {
 			this->camX = camX;
