@@ -40,8 +40,8 @@ float cubeColors[18] = {
 
 int main(int argc, char* argv[]) {
 	//TEST
-	gameObjectPtrs.emplace_back(new Cuboid(-103.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
-	//gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -2.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+	gameObjectPtrs.emplace_back(new Cuboid(-93.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
+	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -2.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);

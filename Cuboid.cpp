@@ -68,20 +68,6 @@ void Cuboid::render() {
 	}
 	
 	glPointSize(0.0f);*/
-	glPointSize(5.0f);
-	glBegin(GL_POINTS);
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(p1.x, p1.y, p1.z);
-	glEnd();
-
-	glBegin(GL_POINTS);
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(p7.x, p7.y, p7.z);
-	glEnd();
-	glPointSize(1.0f);
-
-	//std::cout << "P1 -- " << p1.getCoords() << std::endl;
-	//std::cout << "P7 -- " << p7.getCoords() << std::endl;
 }
 
 void Cuboid::logic(float deltaTime) {

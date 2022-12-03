@@ -24,16 +24,23 @@ void Player::moveCam(float dist, float dir, std::vector<GameObject*> gameObjectP
 	bool willCollideOnX = false;
 	bool willCollideOnZ = false;
 
+	float h = 0.15f;
+
 	for (int q = 0; q < gameObjectPtrs.size(); q++) {
 		float x = gameObjectPtrs[q]->x;
 		float y = gameObjectPtrs[q]->y;
 		float z = gameObjectPtrs[q]->z;
 		Vec3 p1 = gameObjectPtrs[q]->p1;
 		Vec3 p7 = gameObjectPtrs[q]->p7;
+		p1 = Vec3(p1.x - h, p1.y, p1.z - h);
+		p7 = Vec3(p7.x + h, p7.y, p7.z + h);
 		Vec3 c = Vec3(newCamX, newCamY, newCamZ);
 
-		if (inBetween(p1.x, p7.x, c.x) && inBetween(p1.y, p7.y, c.y) && inBetween(p1.z, p7.z, c.z)) {
+		if (inBetween(p1.x, p7.x, c.x) && inBetween(p1.y, p7.y, c.y) && inBetween(p1.z, p7.z, camZ)) {
 			willCollideOnX = true;
+		}
+
+		if (inBetween(p1.x, p7.x, camX) && inBetween(p1.y, p7.y, c.y) && inBetween(p1.z, p7.z, c.z)) {
 			willCollideOnZ = true;
 		}
 
