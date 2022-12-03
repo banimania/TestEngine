@@ -1,7 +1,7 @@
 #include "Player.hpp"
 #include "Vec3.hpp"
 
-void Player::lockCam(void) {
+void Player::lockCam() {
 	if (camPitch > 90.0) {
 		camPitch = 90.0;
 	}
@@ -43,6 +43,9 @@ void Player::moveCam(float dist, float dir, std::vector<GameObject*> gameObjectP
 		if (inBetween(p1.x, p7.x, camX) && inBetween(p1.y, p7.y, c.y) && inBetween(p1.z, p7.z, c.z)) {
 			willCollideOnZ = true;
 		}
+
+		//Check on ground
+		isOnGround = collidesWithRectPrism(camX, camY - 1.0f, camZ, p1, p7);
 
 	}
 
@@ -101,10 +104,18 @@ void Player::camControl(float deltaTime, int mX, int mY, int ww, int wh, std::ve
 
 	glRotatef(-camPitch, 1.0, 0.0, 0.0);
 	glRotatef(-camYaw, 0.0, 1.0, 0.0);
+
+	if (!isOnGround) {
+		camY -= 9.8f * deltaTime;
+	}
 }
 
 void Player::updateCam(void) {
 	glTranslatef(-camX, -camY, -camZ);
+}
+
+bool Player::collidesWithRectPrism(float cx, float cy, float cz, Vec3 p1, Vec3 p7) {
+	return inBetween(p1.x, p7.x, cx) && inBetween(p1.y, p7.y, cy) && inBetween(p1.z, p7.z, cz);
 }
 
 bool inBetween(float q1, float q2, float q3) {

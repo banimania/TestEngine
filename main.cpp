@@ -76,6 +76,8 @@ void render() {
 
 	glFlush();
 	glutSwapBuffers();
+
+	std::cout << player.isOnGround << std::endl;
 }
 
 void idle() {
