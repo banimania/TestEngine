@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.hpp"
+#include "Vec3.hpp"
 
 class Cuboid : public GameObject {
     public:

@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "Vec3.hpp"
 
 void Player::lockCam(void) {
 	if (camPitch > 90.0) {
@@ -22,13 +23,33 @@ void Player::moveCam(float dist, float dir, std::vector<GameObject*> gameObjectP
 	bool willCollideOnX = false;
 	bool willCollideOnZ = false;
 
-	for (int i = 0; i < gameObjectPtrs.size(); i++) {
-		float x = gameObjectPtrs[i]->x;
-		float y = gameObjectPtrs[i]->y;
-		float z = gameObjectPtrs[i]->z;
-		float w = gameObjectPtrs[i]->w;
-		float h = gameObjectPtrs[i]->h;
-		float d = gameObjectPtrs[i]->d;
+	for (int q = 0; q < gameObjectPtrs.size(); q++) {
+		float x = gameObjectPtrs[q]->x;
+		float y = gameObjectPtrs[q]->y;
+		float z = gameObjectPtrs[q]->z;
+		float w = gameObjectPtrs[q]->w;
+		float h = gameObjectPtrs[q]->h;
+		float d = gameObjectPtrs[q]->d;
+		Vec3 p1 = gameObjectPtrs[q]->p1;
+		Vec3 p2 = gameObjectPtrs[q]->p2;
+		Vec3 p4 = gameObjectPtrs[q]->p4;
+		Vec3 p5 = gameObjectPtrs[q]->p5;
+
+		Vec3 c = Vec3(camX, camY, camZ);
+
+		Vec3 i = p2.substract(p1);
+		Vec3 j = p4.substract(p1);
+		Vec3 k = p5.substract(p1);
+		Vec3 v = c.substract(p1);
+
+		if (0 < v.dotProduct(i) < i.dotProduct(i) &&
+			0 < v.dotProduct(j) < j.dotProduct(j) &&
+			0 < v.dotProduct(k) < k.dotProduct(k)) {
+			willCollideOnX = true;
+			willCollideOnZ = true;
+		}
+
+		//std::cout << "X: " << x << " X2: " << x2 << " Y: " << y << " Y2: " << y2 << " Z: " << z << " Z2: " << z2 << std::endl;
 	}
 
 	if (!willCollideOnX) {

@@ -1,60 +1,100 @@
 #include "Cuboid.hpp"
+#include "Vec3.hpp"
 
 #include <gl/glut.h>
 
 void Cuboid::render() {
 
-	float wh = w / 2;
-	float hh = h / 2;
-	float dh = d / 2;
-
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[0], faceColors[1], faceColors[2]);
-	glVertex3f(x - wh, y + hh, z - dh);
-	glVertex3f(x - wh, y - hh, z - dh);
-	glVertex3f(x + wh, y - hh, z - dh);
-	glVertex3f(x + wh, y + hh, z - dh);
+	glVertex3f(p2.x, p2.y, p2.z);
+	glVertex3f(p1.x, p1.y, p1.z);
+	glVertex3f(p4.x, p4.y, p4.z);
+	glVertex3f(p3.x, p3.y, p3.z);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[3], faceColors[4], faceColors[5]);
-	glVertex3f(x - wh, y + hh, z + dh);
-	glVertex3f(x - wh, y - hh, z + dh);
-	glVertex3f(x + wh, y - hh, z + dh);
-	glVertex3f(x + wh, y + hh, z + dh);
+	glVertex3f(p6.x, p6.y, p6.z);
+	glVertex3f(p5.x, p5.y, p5.z);
+	glVertex3f(p8.x, p8.y, p8.z);
+	glVertex3f(p7.x, p7.y, p7.z);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[6], faceColors[7], faceColors[8]);
-	glVertex3f(x - wh, y - hh, z - dh);
-	glVertex3f(x - wh, y - hh, z + dh);
-	glVertex3f(x + wh, y - hh, z + dh);
-	glVertex3f(x + wh, y - hh, z - dh);
+	glVertex3f(p8.x, p8.y, p8.z);
+	glVertex3f(p4.x, p4.y, p4.z);
+	glVertex3f(p3.x, p3.y, p3.z);
+	glVertex3f(p7.x, p7.y, p7.z);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[9], faceColors[10], faceColors[11]);
-	glVertex3f(x - wh, y + hh, z - dh);
-	glVertex3f(x - wh, y + hh, z + dh);
-	glVertex3f(x + wh, y + hh, z + dh);
-	glVertex3f(x + wh, y + hh, z - dh);
+	glVertex3f(p5.x, p5.y, p5.z);
+	glVertex3f(p1.x, p1.y, p1.z);
+	glVertex3f(p2.x, p2.y, p2.z);
+	glVertex3f(p6.x, p6.y, p6.z);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[12], faceColors[13], faceColors[14]);
-	glVertex3f(x - wh, y + hh, z + dh);
-	glVertex3f(x - wh, y - hh, z + dh);
-	glVertex3f(x - wh, y - hh, z - dh);
-	glVertex3f(x - wh, y + hh, z - dh);
+	glVertex3f(p6.x, p6.y, p6.z);
+	glVertex3f(p2.x, p2.y, p2.z);
+	glVertex3f(p3.x, p3.y, p3.z);
+	glVertex3f(p7.x, p7.y, p7.z);
 	glEnd();
 
 	glBegin(GL_POLYGON);
 	glColor3f(faceColors[15], faceColors[16], faceColors[17]);
-	glVertex3f(x + wh, y + hh, z + dh);
-	glVertex3f(x + wh, y - hh, z + dh);
-	glVertex3f(x + wh, y - hh, z - dh);
-	glVertex3f(x + wh, y + hh, z - dh);
+	glVertex3f(p5.x, p5.y, p5.z);
+	glVertex3f(p1.x, p1.y, p1.z);
+	glVertex3f(p4.x, p4.y, p4.z);
+	glVertex3f(p8.x, p8.y, p8.z);
 	glEnd();
+
+	//Draw points
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p1.x, p1.y, p1.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p2.x, p2.y, p2.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p3.x, p3.y, p3.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p4.x, p4.y, p4.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p5.x, p5.y, p5.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p6.x, p6.y, p6.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p7.x, p7.y, p7.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p8.x, p8.y, p8.z);
+	glEnd();
+	glPointSize(0.0f);
 }
 
 void Cuboid::logic(float deltaTime) {
