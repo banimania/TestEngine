@@ -40,7 +40,7 @@ float cubeColors[18] = {
 
 int main(int argc, char* argv[]) {
 	//TEST
-	gameObjectPtrs.emplace_back(new Cuboid(-120.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
+	gameObjectPtrs.emplace_back(new Cuboid(-103.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
 	//gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -2.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
 
 	glutInit(&argc, argv);
@@ -64,7 +64,6 @@ void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	std::cout << "X: " << player.camX << " Z: " << player.camZ << std::endl;
 	player.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT, gameObjectPtrs);
 	player.updateCam();
 	

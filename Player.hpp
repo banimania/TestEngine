@@ -2,13 +2,15 @@
 
 #include "GameObject.hpp"
 
-#define _USE_MATH_DEFINES
+#define M_PI 3.141592
 #include <GL/glut.h>
 #include <cmath>
 #include <windows.h>
 #include <cstdio>
 #include <vector>
 #include <iostream>
+
+bool inBetween(float q1, float q2, float q3);
 
 class Player {
 	public:

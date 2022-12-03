@@ -19,6 +19,7 @@ void Player::moveCam(float dist, float dir, std::vector<GameObject*> gameObjectP
 	float rad = (camYaw + dir) * M_PI / 180.0;
 
 	float newCamX = camX - sin(rad) * dist;
+	float newCamY = camY;
 	float newCamZ = camZ- cos(rad) * dist;
 	bool willCollideOnX = false;
 	bool willCollideOnZ = false;
@@ -27,29 +28,15 @@ void Player::moveCam(float dist, float dir, std::vector<GameObject*> gameObjectP
 		float x = gameObjectPtrs[q]->x;
 		float y = gameObjectPtrs[q]->y;
 		float z = gameObjectPtrs[q]->z;
-		float w = gameObjectPtrs[q]->w;
-		float h = gameObjectPtrs[q]->h;
-		float d = gameObjectPtrs[q]->d;
 		Vec3 p1 = gameObjectPtrs[q]->p1;
-		Vec3 p2 = gameObjectPtrs[q]->p2;
-		Vec3 p4 = gameObjectPtrs[q]->p4;
-		Vec3 p5 = gameObjectPtrs[q]->p5;
+		Vec3 p7 = gameObjectPtrs[q]->p7;
+		Vec3 c = Vec3(newCamX, newCamY, newCamZ);
 
-		Vec3 c = Vec3(camX, camY, camZ);
-
-		Vec3 i = p2.substract(p1);
-		Vec3 j = p4.substract(p1);
-		Vec3 k = p5.substract(p1);
-		Vec3 v = c.substract(p1);
-
-		if (0 < v.dotProduct(i) < i.dotProduct(i) &&
-			0 < v.dotProduct(j) < j.dotProduct(j) &&
-			0 < v.dotProduct(k) < k.dotProduct(k)) {
+		if (inBetween(p1.x, p7.x, c.x) && inBetween(p1.y, p7.y, c.y) && inBetween(p1.z, p7.z, c.z)) {
 			willCollideOnX = true;
 			willCollideOnZ = true;
 		}
 
-		//std::cout << "X: " << x << " X2: " << x2 << " Y: " << y << " Y2: " << y2 << " Z: " << z << " Z2: " << z2 << std::endl;
 	}
 
 	if (!willCollideOnX) {
@@ -111,4 +98,8 @@ void Player::camControl(float deltaTime, int mX, int mY, int ww, int wh, std::ve
 
 void Player::updateCam(void) {
 	glTranslatef(-camX, -camY, -camZ);
+}
+
+bool inBetween(float q1, float q2, float q3) {
+	return q3 >= q1 && q3 <= q2 ? true : false;
 }

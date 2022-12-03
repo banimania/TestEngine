@@ -2,6 +2,7 @@
 #include "Vec3.hpp"
 
 #include <gl/glut.h>
+#include <iostream>
 
 void Cuboid::render() {
 
@@ -54,7 +55,7 @@ void Cuboid::render() {
 	glEnd();
 
 	//Draw points
-	Vec3 points[7]{ p1, p2, p3, p4, p5, p6, p7 };
+	/*Vec3 points[8]{p1, p2, p3, p4, p5, p6, p7, p8};
 	glPointSize(5.0f);
 	
 	for (int i = 0; i < sizeof(points) / sizeof(Vec3); i++) {
@@ -62,9 +63,25 @@ void Cuboid::render() {
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(points[i].x, points[i].y, points[i].z);
 		glEnd();
+
+		
 	}
 	
-	glPointSize(0.0f);
+	glPointSize(0.0f);*/
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(p1.x, p1.y, p1.z);
+	glEnd();
+
+	glBegin(GL_POINTS);
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(p7.x, p7.y, p7.z);
+	glEnd();
+	glPointSize(1.0f);
+
+	//std::cout << "P1 -- " << p1.getCoords() << std::endl;
+	//std::cout << "P7 -- " << p7.getCoords() << std::endl;
 }
 
 void Cuboid::logic(float deltaTime) {

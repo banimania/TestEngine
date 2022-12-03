@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class Vec3 {
 	public:
 		float x, y, z;
@@ -21,5 +23,9 @@ class Vec3 {
 
 		float dotProduct(Vec3 v) { // u * v
 			return x * v.x + y * v.y + z * v.z;
+		}
+
+		std::string getCoords() {
+			return "X: " + std:: to_string(x) + " Y: " + std::to_string(y) + " Z: " + std::to_string(z);
 		}
 };
