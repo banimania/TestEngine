@@ -1,6 +1,6 @@
-#include "Camera.hpp"
+#include "Player.hpp"
 
-void Camera::lockCam(void) {
+void Player::lockCam(void) {
 	if (camPitch > 90.0) {
 		camPitch = 90.0;
 	}
@@ -14,20 +14,31 @@ void Camera::lockCam(void) {
 	}
 }
 
-void Camera::moveCam(float dist, float dir) {
+void Player::moveCam(float dist, float dir) {
 	float rad = (camYaw + dir) * M_PI / 180.0;
 
-	camX -= sin(rad) * dist;
-	camZ -= cos(rad) * dist;
+	float newCamX = camX - sin(rad) * dist;
+	float newCamZ = camZ- cos(rad) * dist;
+	bool willCollideOnX = false;
+	bool willCollideOnZ = false;
+
+
+	if (!willCollideOnX) {
+		camX = newCamX;
+	}
+
+	if (!willCollideOnZ) {
+		camZ = newCamZ;
+	}
 }
 
-void Camera::moveCamUp(float dist, float dir) {
+/*void Player::moveCamUp(float dist, float dir) {
 	float rad = (camPitch + dir) * M_PI / 180.0;
 
 	camY += sin(rad) * dist;
-}
+}*/
 
-void Camera::camControl(float deltaTime, int mX, int mY, int ww, int wh) {
+void Player::camControl(float deltaTime, int mX, int mY, int ww, int wh) {
 	int midX = ww / 2;
 	int midY = wh / 2;
 
@@ -69,6 +80,6 @@ void Camera::camControl(float deltaTime, int mX, int mY, int ww, int wh) {
 	glRotatef(-camYaw, 0.0, 1.0, 0.0);
 }
 
-void Camera::updateCam(void) {
+void Player::updateCam(void) {
 	glTranslatef(-camX, -camY, -camZ);
 }

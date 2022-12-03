@@ -16,7 +16,7 @@
     <Filter Include="Source Files\objects">
       <UniqueIdentifier>{25280453-b510-495d-a3e1-9e3201f1d5b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\camera">
+    <Filter Include="Source Files\player">
       <UniqueIdentifier>{bc33c453-5414-473c-81c1-6461b6f7c0b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -30,8 +30,8 @@
     <ClCompile Include="Cuboid.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\camera</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,8 +41,8 @@
     <ClInclude Include="Cuboid.hpp">
       <Filter>Source Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Source Files\camera</Filter>
+    <ClInclude Include="Player.hpp">
+      <Filter>Source Files\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

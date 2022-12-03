@@ -6,16 +6,16 @@
 #include <windows.h>
 #include <cstdio>
 
-class Camera {
+class Player {
 	public:
 		float camX, camY, camZ, camYaw, camPitch, moveVel, mouseVel;
 		bool hasMovedCam;
 		void lockCam();
 		void moveCam(float dist, float dir);
-		void moveCamUp(float dist, float dir);
+		//void moveCamUp(float dist, float dir);
 		void camControl(float deltaTime, int mX, int mY, int ww, int wh);
 		void updateCam();
-		Camera(float camX, float camY, float camZ, float camYaw, float camPitch, float moveVel, float mouseVel) {
+		Player(float camX, float camY, float camZ, float camYaw, float camPitch, float moveVel, float mouseVel) {
 			this->camX = camX;
 			this->camY = camY;
 			this->camZ = camZ;
@@ -26,7 +26,7 @@ class Camera {
 			this->hasMovedCam = false;
 		};
 
-		Camera() {
+		Player() {
 			this->camX = -100.0f;
 			this->camY = -0.25f;
 			this->camZ = -100.0f;

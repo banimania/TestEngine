@@ -1,5 +1,5 @@
 #include "Cuboid.hpp"
-#include "Camera.hpp"
+#include "Player.hpp"
 
 #include <gl/glut.h>
 #include <windows.h>
@@ -22,7 +22,7 @@ GLdouble aspect = 1;
 GLdouble nearVal = 0.1;
 GLdouble farVal = 1000;
 
-Camera camera = Camera();
+Player player = Player();
 
 int mx, my;
 
@@ -67,9 +67,8 @@ void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	//TEST
-	camera.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
-	camera.updateCam();
+	player.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
+	player.updateCam();
 
 	for (int i = 0; i < gameObjectPtrs.size(); i++) {
 		gameObjectPtrs[i]->logic(dt);
@@ -97,8 +96,8 @@ void idle() {
 void mouseMove(int xx, int yy) {
 	mx = xx;
 	my = yy;
-	if (!camera.hasMovedCam) {
-		camera.hasMovedCam = true;
+	if (!player.hasMovedCam) {
+		player.hasMovedCam = true;
 	}
 }
 
