@@ -47,14 +47,14 @@ void Camera::camControl(float deltaTime, int mX, int mY, int ww, int wh) {
 		if (camPitch != 90.0 && camPitch != -90.0) {
 			moveCam(mv, 0.0);
 		}
-		moveCamUp(mv, 0.0);
+		//moveCamUp(mv, 0.0);
 	}
 
 	if (GetAsyncKeyState('S')) {
 		if (camPitch != 90.0 && camPitch != -90.0) {
 			moveCam(mv, 180.0);
 		}
-		moveCamUp(mv, 180.0);
+		//moveCamUp(mv, 180.0);
 	}
 
 	if (GetAsyncKeyState('A')) {

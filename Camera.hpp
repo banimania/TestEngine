@@ -28,7 +28,7 @@ class Camera {
 
 		Camera() {
 			this->camX = -100.0f;
-			this->camY = 0.0f;
+			this->camY = -0.25f;
 			this->camZ = -100.0f;
 			this->camYaw = 0.0f;
 			this->camPitch = 0.0f;

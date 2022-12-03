@@ -29,7 +29,7 @@ float cubeColors[18] = {
 	1.0f, 0.0f, 1.0f
 };
 
-Cuboid cuboid = Cuboid(-100.0f, -0.5f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors);
+Cuboid cuboid = Cuboid(-100.0f, -0.25f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors);
 Cuboid floorC = Cuboid(-100.0f, -1.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 
 int main(int argc, char* argv[]) {
@@ -53,7 +53,6 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-
 
 	camera.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
 	camera.updateCam();
@@ -95,14 +94,16 @@ void changeSize(int w, int h) {
 		h = 1;
 	}
 
-	float ratio = (float)w / (float)h;
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
 	glViewport(0, 0, w, h);
 
-	gluPerspective(45, ratio, 1, 1000);
+	GLdouble fov = 60;
+	GLdouble aspect = 1;
+	GLdouble nearVal = 0.1;
+	GLdouble farVal = 1000;
+	gluPerspective(fov, aspect, nearVal, farVal);
 
 	glMatrixMode(GL_MODELVIEW);
 }
