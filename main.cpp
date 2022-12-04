@@ -1,5 +1,6 @@
 #include "Cuboid.hpp"
 #include "Player.hpp"
+#include "SceneManager.hpp"
 
 #include <gl/glut.h>
 #include <windows.h>
@@ -22,11 +23,10 @@ GLdouble aspect = 1;
 GLdouble nearVal = 0.1;
 GLdouble farVal = 1000;
 
-Player player = Player();
-
 int mx, my;
 
-std::vector<GameObject*> gameObjectPtrs;
+SceneManager sceneManager;
+int currentScene = 1;
 
 //Test
 float cubeColors[18] = {
@@ -40,8 +40,8 @@ float cubeColors[18] = {
 
 int main(int argc, char* argv[]) {
 	//TEST
-	gameObjectPtrs.emplace_back(new Cuboid(-93.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors));
-	gameObjectPtrs.emplace_back(new Cuboid(-100.0f, -2.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f));
+	sceneManager = SceneManager();
+	sceneManager.scenePtrs.emplace_back(new Scene(1, Player(), { new Cuboid(-93.0f, -0.50f, -96.0f, 1.0f, 0.5f, 0.5f, cubeColors) , new Cuboid(-100.0f, -2.0f, -100.0f, 200.0f, 200.0f, 1.0f, 1.0f, 1.0f, 1.0f) }));
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -63,21 +63,13 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	
-	player.camControl(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT, gameObjectPtrs);
-	player.updateCam();
-	
-	for (int i = 0; i < gameObjectPtrs.size(); i++) {
-		gameObjectPtrs[i]->logic(dt);
-		gameObjectPtrs[i]->render();
-	}
+
+	sceneManager.getScenePtrFromIndex(currentScene)->renderScene(dt, mx, my, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	glEnd();
 
 	glFlush();
 	glutSwapBuffers();
-
-	std::cout << player.isOnGround << std::endl;
 }
 
 void idle() {
@@ -95,8 +87,8 @@ void idle() {
 void mouseMove(int xx, int yy) {
 	mx = xx;
 	my = yy;
-	if (!player.hasMovedCam) {
-		player.hasMovedCam = true;
+	if (!sceneManager.getScenePtrFromIndex(currentScene)->p.hasMovedCam) {
+		sceneManager.getScenePtrFromIndex(currentScene)->p.hasMovedCam = true;
 	}
 }
 

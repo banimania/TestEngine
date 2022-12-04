@@ -22,6 +22,12 @@
     <Filter Include="Source Files\utils">
       <UniqueIdentifier>{45e53899-8996-43db-803d-8547fe0eaf13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\scene">
+      <UniqueIdentifier>{ccdbbd95-d371-4d1d-8d05-639e7958a244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene\scenes">
+      <UniqueIdentifier>{de96f256-6159-4477-805b-128f08219fbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\player</Filter>
     </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.hpp">
@@ -49,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="Vec3.hpp">
       <Filter>Source Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene1.hpp">
+      <Filter>Source Files\scene\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>Source Files\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
